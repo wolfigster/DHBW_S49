@@ -16,7 +16,13 @@ public class Element extends RootElement {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("Element name: ").append(this.elementName).append("\n");
-        stringBuilder.append("Superior element: ").append(this.getSuperiorElement());
+        stringBuilder.append("Superior element: ").append(this.getSuperiorElement()).append("\n");
+        stringBuilder.append("Matrix: ").append("\n");
+        stringBuilder.append("[").append(getRow(0)).append("]").append("\n");
+        stringBuilder.append("[").append(getRow(1)).append("]").append("\n");
+        stringBuilder.append("[").append(getRow(2)).append("]").append("\n");
+        stringBuilder.append("[").append(getRow(3)).append("]").append("\n");
+        stringBuilder.append("[").append(getRow(4)).append("]").append("\n");
 
         for(RootElement rootElement : elements) {
             rootElement.printElementInformation();

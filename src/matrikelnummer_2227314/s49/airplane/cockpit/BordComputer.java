@@ -5,6 +5,7 @@ import matrikelnummer_2227314.s49.airplane.Engine;
 import matrikelnummer_2227314.s49.airplane.EngineType;
 import matrikelnummer_2227314.s49.airplane.cockpit.mediator.ControlModule;
 import matrikelnummer_2227314.s49.airplane.cockpit.mediator.IControlModule;
+import matrikelnummer_2227314.s49.airplane.cockpit.mediator.IControlModuleCommand;
 import matrikelnummer_2227314.s49.airplane.elements.RootElement;
 
 import java.util.*;
@@ -15,18 +16,12 @@ public class BordComputer {
     private List<IControlModule> controlModules;
     private List<Engine> engines;
     private String phase = "";
+    private Cockpit cockpit;
 
-    public BordComputer() {
-        controlModules = new ArrayList<>();
-        engines = new ArrayList<>();
-
-        for(int i = 0; i < 4; i++) {
-            IControlModule controlModule = new ControlModule();
-            Engine engine = new Engine(controlModule, EngineType.ROLLS_ROYCE_TRENT_900);
-            controlModule.registerEngine(engine);
-            controlModules.add(controlModule);
-            engines.add(engine);
-        }
+    public BordComputer(Cockpit cockpit, List<IControlModule> controlModules, List<Engine> engines) {
+        this.cockpit = cockpit;
+        this.controlModules = controlModules;
+        this.engines = engines;
     }
 
     public void startSimulation() {
@@ -81,16 +76,26 @@ public class BordComputer {
         for(int i = 0; i < seconds; i++) {
             try {
                 for(Engine engine : engines) {
-                    if(phase.equals("climb") && random.nextFloat() <= 0.005) {
+                    if(phase.equals("climb") && random.nextFloat() <= 0.05) {
                         for(IControlModule controlModule : controlModules) {
                             if(controlModule.getEngine().equals(engine)) {
-                                controlModule.setEngineStatus(false);
-
+                                if(controlModule.isEngineOk()) {
+                                    controlModule.setEngineStatus(false);
+                                    System.out.println(engine.hitByBird() + ". --> shutdown Engine!");
+                                    cockpit.getPilot().shutdownEngine(engine);
+                                } else {
+                                    System.out.println(engine.hitByBird() + " again.");
+                                }
                             }
                         }
                     }
-                    if(engine.getRPM() + (2.5 * kmh) <= engine.getMaxRPM()) engine.increaseRPM(2.5 * kmh);
+                    if (engine.getRPM() + (2.5 * kmh) <= engine.getMaxRPM()) {
+                        engine.increaseRPM(2.5 * kmh);
+                    } else {
+                        engine.increaseRPM(0);
+                    }
                 }
+                System.out.println();
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -107,8 +112,13 @@ public class BordComputer {
         for(int i = 0; i < seconds; i++) {
             try {
                 for(Engine engine : engines) {
-                    if(engine.getRPM() - (2.5 * kmh) >= 2.5 * kmh) engine.decreaseRPM(2.5 * kmh);
+                    if (engine.getRPM() - (2.5 * kmh) >= 2.5 * kmh) {
+                        engine.decreaseRPM(2.5 * kmh);
+                    } else {
+                        engine.decreaseRPM(0);
+                    }
                 }
+                System.out.println();
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();

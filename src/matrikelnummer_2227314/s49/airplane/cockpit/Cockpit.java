@@ -33,4 +33,8 @@ public class Cockpit {
     public String toString() {
         return "Your pilot for today's flight is " + pilot.getName();
     }
+
+    public Pilot getPilot() {
+        return pilot;
+    }
 }

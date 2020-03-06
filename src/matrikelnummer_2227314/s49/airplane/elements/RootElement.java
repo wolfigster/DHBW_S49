@@ -54,7 +54,7 @@ public abstract class RootElement {
         String parent;
 
         if(parentElement == null) {
-            parent = "--- top level unit";
+            parent = "--- top level element";
         } else {
             parent = this.parentElement.elementName;
         }

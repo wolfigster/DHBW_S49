@@ -49,28 +49,32 @@ public class Engine implements IControlModuleCommand {
         if(rpm >= 60) {
             String airflow1 = airIntake1.inhale(airflow);
             String airflow2 = airIntake2.inhale(airflow);
-            if(Application.debugMessages) System.out.println("airflow1: " + airflow1);
-            if(Application.debugMessages) System.out.println("airflow2: " + airflow2);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow1: " + airflow1);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow2: " + airflow2);
             airflow1 = compressionI.compress(airflow1);
             airflow2 = compressionI.compress(airflow2);
-            if(Application.debugMessages) System.out.println("airflow1: " + airflow1);
-            if(Application.debugMessages) System.out.println("airflow2: " + airflow2);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow1: " + airflow1);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow2: " + airflow2);
             airflow1 = compressionII.compress(airflow1);
             airflow2 = compressionII.compress(airflow2);
-            if(Application.debugMessages) System.out.println("airflow1: " + airflow1);
-            if(Application.debugMessages) System.out.println("airflow2: " + airflow2);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow1: " + airflow1);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow2: " + airflow2);
             airflow1 = compressionIII.compress(airflow1);
             airflow2 = compressionIII.compress(airflow2);
-            if(Application.debugMessages) System.out.println("airflow1: " + airflow1);
-            if(Application.debugMessages) System.out.println("airflow2: " + airflow2);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow1: " + airflow1);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow2: " + airflow2);
             airflow1 = combustion.ignite(airflow1);
             airflow2 = combustion.ignite(airflow2);
-            if(Application.debugMessages) System.out.println("airflow1: " + airflow1);
-            if(Application.debugMessages) System.out.println("airflow2: " + airflow2);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow1: " + airflow1);
+            if(Application.debugMessages) System.out.println("Engine " + hashCode() + " : airflow2: " + airflow2);
             airflow1 = exhaust.eject(airflow1, this.rpm);
             airflow2 = exhaust.eject(airflow2, this.rpm);
-            System.out.println("airflow1: " + airflow1);
-            System.out.println("airflow2: " + airflow2);
+            System.out.println("Engine " + hashCode() + ": airflow1: " + airflow1);
+            System.out.println("Engine " + hashCode() + ": airflow2: " + airflow2);
+        } else if(rpm <= 60 && isOn) {
+            System.out.println("Engine " + hashCode() + ": rpm under 60");
+        } else {
+            System.out.println("Engine " + hashCode() + ": is out of order");
         }
     }
 
@@ -83,11 +87,15 @@ public class Engine implements IControlModuleCommand {
         return this.rpm;
     }
 
-    public String toString() {
-        return "Engine " + hashCode() + " EngineType: " + this.engineType + ((this.isOn) ? " in use" : " out of order") + " with " + this.rpm + " RPM (" + this.rpm * 0.4 + "km/h) EngineStatus: " + controlModule.isEngineOk();
-    }
-
     public double getMaxRPM() {
         return maxRPM;
+    }
+
+    public String hitByBird() {
+        return ">>> Engine " + hashCode() + " was hit by a bird";
+    }
+
+    public String toString() {
+        return "Engine " + hashCode() + " EngineType: " + this.engineType + ((this.isOn) ? " in use" : " out of order") + " with " + this.rpm + " RPM (" + this.rpm * 0.4 + "km/h) EngineStatus: " + controlModule.isEngineOk();
     }
 }
