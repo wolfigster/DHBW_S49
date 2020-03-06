@@ -11,6 +11,7 @@ public class _MediatorApplet {
         atcMediator.registerFlight(sparrow101);
         sparrow101.getReady();
 
+        sparrow101.grantLandingPermission();
         mainRunway.grantLandingPermission();
         sparrow101.grantLandingPermission();
     }

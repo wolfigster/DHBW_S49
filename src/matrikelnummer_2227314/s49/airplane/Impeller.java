@@ -1,5 +1,6 @@
 package matrikelnummer_2227314.s49.airplane;
 
+import matrikelnummer_2227314.s49.Application;
 import matrikelnummer_2227314.s49.airplane.elements.Element;
 import matrikelnummer_2227314.s49.airplane.elements.MainElement;
 import matrikelnummer_2227314.s49.airplane.elements.SubElement;
@@ -29,10 +30,12 @@ public class Impeller {
             mainElements.add(mainElement);
         }
 
-        for(MainElement elements : mainElements) {
-            elements.printStructure();
-            System.out.println();
-            elements.printElementInformation();
+        if(Application.debugMessages) {
+            for(MainElement elements : mainElements) {
+                elements.printStructure();
+                System.out.println();
+                elements.printElementInformation();
+            }
         }
     }
 }

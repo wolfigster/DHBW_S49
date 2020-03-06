@@ -5,7 +5,7 @@ public class Runway implements ICommand {
 
     public Runway(IATCMediator atcMediator) {
         this.atcMediator = atcMediator;
-        atcMediator.setLandingStatus(true);
+        atcMediator.setLandingStatus(false);
     }
 
     @Override
